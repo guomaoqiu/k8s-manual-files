@@ -7,15 +7,13 @@ Requires=docker.service
 [Service]
 WorkingDirectory=/var/lib/kubelet
 ExecStart=/opt/kubernetes/bin/kubelet \
-  --address=192.168.56.11 \
-  --hostname-override=192.168.56.11 \
+  --address=192.168.56.111 \
+  --hostname-override=192.168.56.111 \
   --pod-infra-container-image=mirrorgooglecontainers/pause-amd64:3.0 \
   --experimental-bootstrap-kubeconfig=/opt/kubernetes/cfg/bootstrap.kubeconfig \
   --kubeconfig=/opt/kubernetes/cfg/kubelet.kubeconfig \
   --cert-dir=/opt/kubernetes/ssl \
   --network-plugin=cni \
-  --cni-conf-dir=/etc/cni/net.d \
-  --cni-bin-dir=/opt/kubernetes/bin/cni \
   --cluster-dns=10.1.0.2 \
   --cluster-domain=cluster.local. \
   --hairpin-mode hairpin-veth \

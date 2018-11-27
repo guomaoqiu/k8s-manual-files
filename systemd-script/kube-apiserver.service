@@ -1,44 +1,44 @@
 [Unit]
 Description=Kubernetes API Server
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Documentation=https://github.com/kubernetes/kubernetes
 After=network.target
 
 [Service]
-ExecStart=/opt/kubernetes/bin/kube-apiserver \
-  --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction \
-  --bind-address=192.168.56.11 \
-  --insecure-bind-address=127.0.0.1 \
-  --authorization-mode=Node,RBAC \
-  --runtime-config=rbac.authorization.k8s.io/v1 \
-  --kubelet-https=true \
-  --anonymous-auth=false \
-  --basic-auth-file=/opt/kubernetes/ssl/basic-auth.csv \
-  --enable-bootstrap-token-auth \
-  --token-auth-file=/opt/kubernetes/ssl/bootstrap-token.csv \
-  --service-cluster-ip-range=10.1.0.0/16 \
-  --service-node-port-range=20000-40000 \
-  --tls-cert-file=/opt/kubernetes/ssl/kubernetes.pem \
-  --tls-private-key-file=/opt/kubernetes/ssl/kubernetes-key.pem \
-  --client-ca-file=/opt/kubernetes/ssl/ca.pem \
-  --service-account-key-file=/opt/kubernetes/ssl/ca-key.pem \
-  --etcd-cafile=/opt/kubernetes/ssl/ca.pem \
-  --etcd-certfile=/opt/kubernetes/ssl/kubernetes.pem \
-  --etcd-keyfile=/opt/kubernetes/ssl/kubernetes-key.pem \
-  --etcd-servers=https://192.168.56.11:2379,https://192.168.56.12:2379,https://192.168.56.13:2379 \
-  --enable-swagger-ui=true \
-  --allow-privileged=true \
-  --audit-log-maxage=30 \
-  --audit-log-maxbackup=3 \
-  --audit-log-maxsize=100 \
-  --audit-log-path=/opt/kubernetes/log/api-audit.log \
-  --event-ttl=1h \
-  --v=2 \
-  --logtostderr=false \
-  --log-dir=/opt/kubernetes/log
+ExecStart=//opt/kubernetes/bin/kube-apiserver \
+      --v=2  \
+      --logtostderr=true  \
+      --allow-privileged=true  \
+      --bind-address=0.0.0.0  \
+      --secure-port=6443  \
+      --insecure-port=0  \
+      --advertise-address=192.168.56.100 \
+      --service-cluster-ip-range=10.1.0.0/12  \
+      --service-node-port-range=30000-32767  \
+      --etcd-servers=https://192.168.56.111:2379,https://192.168.56.112:2379,https://192.168.56.113:2379 \
+      --etcd-cafile=/opt/kubernetes/ssl/etcd-ca.pem  \
+      --etcd-certfile=/opt/kubernetes/ssl/etcd.pem  \
+      --etcd-keyfile=/opt/kubernetes/ssl/etcd-key.pem  \
+      --client-ca-file=/opt/kubernetes/ssl/ca.pem  \
+      --tls-cert-file=/opt/kubernetes/ssl/apiserver.pem  \
+      --tls-private-key-file=/opt/kubernetes/ssl/apiserver-key.pem  \
+      --kubelet-client-certificate=/opt/kubernetes/ssl/apiserver.pem  \
+      --kubelet-client-key=/opt/kubernetes/ssl/apiserver-key.pem  \
+      --service-account-key-file=/opt/kubernetes/ssl/sa.pub  \
+      --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname  \
+      --admission-control=Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,ResourceQuota  \
+      --authorization-mode=Node,RBAC  \
+      --enable-bootstrap-token-auth=true  \
+      --audit-policy-file=/opt/kubernetes/cfg/audit-policy.yml  \
+      --experimental-encryption-provider-config=/opt/kubernetes/cfg/encryption.yml  \
+      --audit-log-maxage=30  \
+      --audit-log-maxbackup=3  \
+      --audit-log-maxsize=100  \
+      --audit-log-path=/var/log/kubernetes/audit.log  \
+      --event-ttl=1h
+
 Restart=on-failure
-RestartSec=5
-Type=notify
-LimitNOFILE=65536
+RestartSec=10s
+LimitNOFILE=65535
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+{
+  "CN": "system:node:k8s-m2",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "L": "Hangzhou",
+      "ST": "Hangzhou",
+      "O": "system:nodes",
+      "OU": "Kubernetes-manual"
+    }
+  ]
+}
