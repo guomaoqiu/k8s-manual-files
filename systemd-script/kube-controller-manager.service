@@ -4,7 +4,7 @@ Documentation=https://github.com/kubernetes/kubernetes
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/kube-controller-manager \
+ExecStart=/opt/kubernetes/bin/kube-controller-manager \
       --v=2 \
       --logtostderr=true \
       --address=127.0.0.1 \
@@ -12,7 +12,7 @@ ExecStart=/usr/local/bin/kube-controller-manager \
       --cluster-signing-cert-file=/opt/kubernetes/ssl/ca.pem \
       --cluster-signing-key-file=/opt/kubernetes/ssl/ca-key.pem \
       --service-account-private-key-file=/opt/kubernetes/ssl/sa.key \
-      --kubeconfig=/etc/kubernetes/controller-manager.kubeconfig \
+      --kubeconfig=/opt/kubernetes/cfg/controller-manager.kubeconfig \
       --leader-elect=true \
       --use-service-account-credentials=true \
       --node-monitor-grace-period=40s \
